@@ -138,8 +138,8 @@ let equal t1 t2 =
   go (push_left [] t1) (push_left [] t2)
 
 let to_string key_to_string value_to_string tree =
-  let pairs = to_list tree in
-  let pair_strings =
-    List.map (fun (k, v) -> key_to_string k ^ " -> " ^ value_to_string v) pairs
+  let pp_pair fmt (k, v) =
+    Format.fprintf fmt "%s -> %s" (key_to_string k) (value_to_string v)
   in
-  "{" ^ String.concat ", " pair_strings ^ "}"
+  let pp_sep fmt () = Format.fprintf fmt ", " in
+  Format.asprintf "{%a}" (Format.pp_print_list ~pp_sep pp_pair) (to_list tree)
