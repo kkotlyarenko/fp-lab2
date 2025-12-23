@@ -1,0 +1,3 @@
+(library
+ (name rb_dict_lazy)
+ (modules rb_dict_lazy))

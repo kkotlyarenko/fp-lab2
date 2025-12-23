@@ -1,0 +1,17 @@
+opam-version: "2.0"
+name: "rb_dict_lazy"
+version: "0.1.0"
+synopsis: "Red-Black Tree Dictionary with Lazy Evaluation"
+maintainer: "Kirill Kotlyarenko"
+authors: ["Kirill Kotlyarenko"]
+depends: [
+  "ocaml" {>= "4.14.0"}
+  "dune" {>= "3.0"}
+  "alcotest" {with-test}
+  "qcheck" {with-test}
+]
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+]
+

@@ -1,0 +1,9 @@
+_build/
+*.opam
+!rb_dict_lazy.opam
+.merlin
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
