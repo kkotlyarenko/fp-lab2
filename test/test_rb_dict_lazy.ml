@@ -119,15 +119,19 @@ let unit_tests =
     ("large dictionary", `Quick, test_large_dict);
   ]
 
+let gen_small_nat = QCheck.Gen.(0 -- 1000)
+
+let arb_small_nat = QCheck.make gen_small_nat
+
 let dict_gen =
   QCheck.Gen.(
-    list (pair small_int small_int) >|= fun pairs -> of_list pairs)
+    list (pair gen_small_nat gen_small_nat) >|= fun pairs -> of_list pairs)
 
 let dict_arb = QCheck.make dict_gen
 
 let prop_insert_find =
   QCheck.Test.make ~count:1000 ~name:"insert then find"
-    QCheck.(pair small_int small_int)
+    QCheck.(pair arb_small_nat arb_small_nat)
     (fun (k, v) ->
       let dict = insert k v empty in
       find k dict = Some v)
@@ -166,7 +170,7 @@ let prop_list_roundtrip =
 
 let prop_remove_find =
   QCheck.Test.make ~count:1000 ~name:"remove then find"
-    QCheck.(pair dict_arb small_int)
+    QCheck.(pair dict_arb arb_small_nat)
     (fun (dict, k) ->
       let dict' = remove k dict in
       find k dict' = None)
